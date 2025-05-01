@@ -1,0 +1,48 @@
+----------------------------------------------------------------------------------------
+one hot encoder
+from sklearn.preprocessing import OneHotEncoder
+
+# Create the encoder
+encoder = OneHotEncoder(sparse=False, drop=None)
+encoded = encoder.fit_transform(df[['Sex']])
+
+# Create a DataFrame with the encoded data
+encoded_df = pd.DataFrame(encoded, columns=encoder.get_feature_names_out(['Sex']))
+
+# Concatenate back to the original dataframe (excluding original 'Sex' column)
+df = pd.concat([df.drop('Sex', axis=1), encoded_df], axis=1)
+
+print(df.head())
+---------------------------------------------------------------------------------------
+get_dummies
+
+categorical_cols = ['Sex']
+
+
+df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
+
+print(df_encoded.head())
+---------------------------------------------------------------------------------------
+
+MINMAX SCALAR
+min_max_scaler = MinMaxScaler()
+df_min_max = df.copy()  # Copy to preserve original data
+df_min_max[['Age', 'Salary']] = min_max_scaler.fit_transform(df[['Age', 'Salary']])
+
+---------------------------------------------------------------------------------------
+
+STANDARD SCALAR
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+
+df_standardized = df.copy()  # Copy to preserve original data
+df_standardized[['Age', 'Salary']] = scaler.fit_transform(df[['Age', 'Salary']])
+
+
+-------------------------------------------------------------------------------
+ random_state=42
+--------------------------------------------------------------------------------
+
+
+sbn.histplot(df['Fare'], kde=True, bins=30, color='skyblue')
+--------------------------------------------------------------------------------
